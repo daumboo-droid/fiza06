@@ -185,82 +185,6 @@
             60% { transform: scale(1); }
         }
 
-        /* --- Balloon Slide Styles --- */
-        .balloon-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-
-        .balloon {
-            width: 70px;
-            height: 85px;
-            border-radius: 50%;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s;
-            animation: floatBalloon 3s ease-in-out infinite;
-        }
-
-        .balloon::before {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.6);
-        }
-
-        .balloon:hover {
-            transform: scale(1.1);
-        }
-
-        .balloon.popped {
-            animation: pop 0.3s ease-out forwards;
-            pointer-events: none;
-        }
-
-        @keyframes floatBalloon {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes pop {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.8; }
-            100% { transform: scale(0); opacity: 0; }
-        }
-
-        .balloon-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
-            color: white;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-
-        .balloon.popped .balloon-text {
-            opacity: 1;
-        }
-
-        .balloon-name {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.5rem;
-            color: #ff99cc;
-            margin-top: 20px;
-            text-shadow: 0 0 10px rgba(255, 192, 203, 0.8);
-        }
-
         /* --- Start Overlay --- */
         #start-overlay {
             position: fixed;
@@ -343,19 +267,6 @@
             .final-slide p {
                 font-size: 0.85rem;
             }
-
-            .balloon {
-                width: 60px;
-                height: 75px;
-            }
-
-            .balloon-text {
-                font-size: 1.2rem;
-            }
-
-            .balloon-name {
-                font-size: 2rem;
-            }
         }
 
         @media (max-width: 375px) {
@@ -383,19 +294,6 @@
             .btn {
                 padding: 10px 20px;
                 font-size: 0.9rem;
-            }
-
-            .balloon {
-                width: 55px;
-                height: 70px;
-            }
-
-            .balloon-text {
-                font-size: 1rem;
-            }
-
-            .balloon-name {
-                font-size: 1.8rem;
             }
         }
     </style>
@@ -443,20 +341,86 @@
             <button class="btn" onclick="nextSlide()">My love</button>
         </div>
 
-        <!-- Slide 5 - Balloon Surprise -->
-        <div class="card" id="slide-5">
-            <h2>Pop the Balloons! 🎈</h2>
-            <p>Tap each balloon to reveal the surprise</p>
-            <div class="balloon-container">
-                <div class="balloon" style="background: linear-gradient(135deg, #ff6b6b, #ff8e8e);" onclick="popBalloon(this, 'Happy')">
-                    <span class="balloon-text">Happy</span>
-                </div>
-                <div class="balloon" style="background: linear-gradient(135deg, #4ecdc4, #556270);" onclick="popBalloon(this, 'Birthday')">
-                    <span class="balloon-text">Birthday</span>
-                </div>
-                <div class="balloon" style="background: linear-gradient(135deg, #a8e6cf, #dcedc1);" onclick="popBalloon(this, 'Fiza')">
-                    <span class="balloon-text">Fiza</span>
-                </div>
-            </div>
-            <div class="balloon-name">Fiza</div>
-            <button class="btn" onclick="nextSlide()">Continue</button>
+        <!-- Final Slide -->
+        <div class="card final-slide" id="slide-5">
+            <span class="glowing-heart">🫀</span>
+            <h1>Happy Birthday My Love</h1>
+            <p>You are my happiness, my peace,<br>and the most beautiful part of my life 🥹</p>
+            <p>I'm lucky to have you ❤️<br>I love you more than words can explain.</p>
+            <p style="font-size: 0.8rem; opacity: 0.9;">I may not always find the perfect words to explain how much you mean to me, but my heart knows it very well.</p>
+            <p style="color: #ff99cc; font-weight: bold; font-size: 0.85rem;">May Allah always protect you, make you happy, and keep us together forever 🫂🫀</p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Variables ---
+        let currentSlide = 1;
+        const totalSlides = 5;
+
+        // --- Start Experience ---
+        function startExperience() {
+            const overlay = document.getElementById('start-overlay');
+            overlay.classList.add('hidden');
+        }
+
+        // --- Background Animation ---
+        function createBackgroundElements() {
+            const container = document.getElementById('bg-elements');
+            const starCount = 50;
+            const heartCount = 15;
+
+            // Create Stars
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(star);
+            }
+
+            // Create Floating Hearts
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-bg');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // --- Slide Navigation ---
+        function nextSlide() {
+            const currentCard = document.getElementById(`slide-${currentSlide}`);
+            const nextCard = document.getElementById(`slide-${currentSlide + 1}`);
+
+            if (nextCard) {
+                // Fade out current
+                currentCard.classList.remove('active');
+                currentCard.classList.add('exit');
+
+                // Wait for animation to finish before showing next
+                setTimeout(() => {
+                    currentCard.classList.remove('exit');
+                    
+                    // Show next
+                    nextCard.classList.add('active');
+                    
+                    // Update current slide
+                    currentSlide++;
+                }, 600);
+            }
+        }
+
+        // --- Initialize ---
+        window.onload = function() {
+            createBackgroundElements();
+        };
+    </script>
+</body>
+</html>
